@@ -11,7 +11,8 @@
     "url": "git+https://github.com/fossasia/susi_gitterbot.git"
   },
   "dependencies": {
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "https": "^1.0.0"
   },
   "author": "",
   "license": "ISC",
