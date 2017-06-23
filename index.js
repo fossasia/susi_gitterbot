@@ -28,7 +28,7 @@ var req = https.request(options, function(res) {
         // The message sent to Susi AI gitter room by the client.
 
         var clientMsg = jsonMsg.text;
-        var ans;
+        var ans = '';
         // To set options for a request to Susi with the client message as a query
         var susiOptions = { 
           method: 'GET',
@@ -40,8 +40,38 @@ var req = https.request(options, function(res) {
         request(susiOptions, function (error1, response1, body1) {
           if (error1) 
             throw new Error(error1);
+
+          data = JSON.parse(body1);
           // fetching the answer from Susi's response
-          ans = (JSON.parse(body1)).answers[0].actions[0].expression;
+          if(data.answers[0].actions[1]){
+						if(data.answers[0].actions[1].type === 'rss'){
+							ans += 'I found this on the web-:\n\n'
+							for(var i=0;i<((data.answers[0].metadata.count)>5?5:data.answers[0].metadata.count);i++){
+								ans += ('Title : ');
+								ans += data.answers[0].data[i].title+', ';
+								ans += ('Link : ');
+								ans += data.answers[0].data[i].link+', ';
+								ans += '\n\n';
+							}
+						}
+					}
+					else{
+						if(data.answers[0].actions[0].type === 'table'){
+							var colNames = data.answers[0].actions[0].columns;
+              ans += 'Due to message limit, only some results are shown-:\n\n';
+							for(var i=0;i<((data.answers[0].metadata.count)>5?5:data.answers[0].metadata.count);i++){
+								for(var cN in colNames){
+									ans += (colNames[cN]+' : ');
+									ans += data.answers[0].data[i][cN]+', ';
+								}
+								ans += '\n\n';
+							}
+						}
+						else
+						{
+							ans = data.answers[0].actions[0].expression;
+						}
+					}
 
           // To set options to send a message i.e. the reply by Susi AI to client's message, to Gitter 
           var gitterOptions = { 
