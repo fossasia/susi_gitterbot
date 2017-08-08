@@ -1,13 +1,13 @@
 var https = require('https');
 var request = require('request');
-var roomId    = process.env.ROOM_ID;
-var token     = process.env.TOKEN;
+var roomId    = process.env.ROOM_ID || config.ROOM_ID;
+var token     = process.env.TOKEN || config.TOKEN;
 var emptyMessage = " \n";
 
 // To bind a port on heroku 
 https.createServer(function (request, response) {
-  console.log("listening on port "+(process.env.PORT || 5000));
-}).listen(process.env.PORT || 5000);
+  console.log("listening on port "+(process.env.PORT || 8080));
+}).listen(process.env.PORT || 8080);
   
 // Setting the options variable to use it in the https request block
 var options = {
@@ -107,8 +107,3 @@ req.on('error', function(e) {
 });
 
 req.end();
-
-// to keep heroku active
-setInterval(function() {
-  https.get(process.env.HerokuUrl);
-}, 1200000);
