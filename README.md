@@ -12,7 +12,12 @@ To create your account on -:
 2. Gitter
 3. Heroku
 
+## SUSI.AI Gitter messenger bot
+
+Feel free to play around with the already built [SUSI.AI bot](https://gitter.im/susiai1/Lobby) on Gitter. This room will reply to the queries when mentioned with "@susiai". So we can try asking SUSI.AI our queries, for example - @susiai BTC to INR [here](https://gitter.im/susiai1/Lobby).
+
 ## Setup your own Messenger Bot
+
 1. Fork this repository.
 
 2. Create your community by visiting this [page](https://gitter.im/home/explore#createcommunity). After writing your community name press next, invite the people you want to be in this room and press next. You will be redirected to your communities lobby. This lobby is the chat room to which we will deploy our SUSI AI.
