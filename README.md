@@ -6,6 +6,8 @@ Now you need to sign in to Gitter with a twitter or github account from [here](h
 
 We will be using the streaming API of Gitter to deploy SUSI chat bot to Gitter. You can read the [documentation](https://developer.gitter.im/docs/streaming-api) and get familiar with the API.
 
+[![Deploy to Docker Cloud](https://files.cloud.docker.com/images/deploy-to-dockercloud.svg)](https://cloud.docker.com/stack/deploy/?repo=https://github.com/fossasia/susi_gitterbot)
+
 ## Prerequisites
 To create your account on -:
 1. Github
