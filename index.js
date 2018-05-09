@@ -3,7 +3,7 @@ var request = require('request');
 var roomId    = process.env.ROOM_ID || config.ROOM_ID;
 var token     = process.env.TOKEN || config.TOKEN;
 var emptyMessage = " \n";
-
+var susi_username="";
 // To bind a port on heroku 
 https.createServer(function (request, response) {
   console.log("listening on port "+(process.env.PORT || 8080));
@@ -17,7 +17,24 @@ var options = {
   method:   'GET',
   headers:  {'Authorization': 'Bearer ' + token}
 };
-
+//make api call to get user name
+var gitterOptionsUsername = { 
+  method: 'GET',
+  url: 'https://api.gitter.im/v1/user',
+  headers: 
+  {
+    'authorization': 'Bearer '+ token ,
+    'content-type': 'application/json',
+    'accept': 'application/json'
+  },
+  json: true 
+};
+// making the request to Gitter API
+request(gitterOptionsUsername, function (error, response, body) {
+  if(error)
+    throw new Error(error);
+  susi_username=body[0].username;
+});
 // making a request to gitter stream API
 var req = https.request(options, function(res) {
   res.on('data', function(chunk) {
@@ -27,7 +44,7 @@ var req = https.request(options, function(res) {
        if(jsonMsg.text.startsWith("@susiai") && jsonMsg.fromUser.displayName != 'susiai'){
         // The message sent to Susi AI gitter room by the client.
 
-        var clientMsg = jsonMsg.text.slice(7);
+        var clientMsg = jsonMsg.text.slice(susi_username.length+1);
         var ans = '';
         
         // To set options for a request to Susi with the client message as a query
