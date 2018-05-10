@@ -1,3 +1,4 @@
+require('dotenv').config()
 var https = require('https');
 var request = require('request');
 var roomId    = process.env.ROOM_ID || config.ROOM_ID;
