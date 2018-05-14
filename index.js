@@ -10,7 +10,23 @@ var susiUsername="";
 https.createServer(function (request, response) {
   console.log("listening on port "+(process.env.PORT || 8080));
 }).listen(process.env.PORT || 8080);
-  
+const timezoneOffset = (new Date()).getTimezoneOffset();
+const defaultAnswer = {
+ data: [{
+   '0': '',
+   timezoneOffset,
+   language: 'en'
+ }],
+ metadata: {
+   count: 1
+ },
+ actions: [{
+   type: 'answer',
+   expression: 'Hmm... I\'m not sure if i understand you correctly.'
+ }],
+ skills: ['/en_0090_fail.json'],
+ persona: {}
+};
 // Setting the options variable to use it in the https request block
 var options = {
   hostname: 'stream.gitter.im',
@@ -62,6 +78,10 @@ var req = https.request(options, function(res) {
             throw new Error(error1);
 
           data = JSON.parse(body1);
+          //handle default case of no answer
+          if(!data.answers.length || data.answers.length==0){
+            data.answers.push(defaultAnswer);
+          }
           // fetching the answer from Susi's response
           if(data.answers[0].actions[1]){
 						if(data.answers[0].actions[1].type === 'rss'){
