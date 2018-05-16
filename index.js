@@ -62,7 +62,7 @@ var req = https.request(options, function(res) {
        if(jsonMsg.text.startsWith("@"+susiUsername) && jsonMsg.fromUser.displayName !== susiUsername){
         // The message sent to Susi AI gitter room by the client.
 
-        var clientMsg = jsonMsg.text.slice(7);
+        var clientMsg = jsonMsg.text.slice(susiUsername.length+1);
         var ans = '';
         
         // To set options for a request to Susi with the client message as a query
