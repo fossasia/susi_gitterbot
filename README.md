@@ -1,8 +1,6 @@
 # Getting Started : Gitter Susi AI Bot Installation 
 
-Create a github or twitter account with a username having 'Susi' as its substring. Because this is the name that will be shown with the reply string we will get from Susi AI. 
-
-Now you need to sign in to Gitter with a twitter or github account from [here](https://gitter.im). 
+Create a github or twitter account. Now you need to sign in to Gitter with a twitter or github account from [here](https://gitter.im). 
 
 We will be using the streaming API of Gitter to deploy SUSI chat bot to Gitter. You can read the [documentation](https://developer.gitter.im/docs/streaming-api) and get familiar with the API.
 
@@ -14,7 +12,7 @@ To create your account on -:
 
 ## SUSI.AI Gitter messenger bot
 
-Feel free to play around with the already built [SUSI.AI bot](https://gitter.im/susiai1/Lobby) on Gitter. This room will reply to the queries when mentioned with "@susiai". So we can try asking SUSI.AI our queries, for example - @susiai BTC to INR [here](https://gitter.im/susiai1/Lobby).
+Feel free to play around with the already built [SUSI.AI bot](https://gitter.im/susiaitest/Lobby) on Gitter. This room will reply to the queries when mentioned with "@susiai". So we can try asking SUSI.AI our queries, for example - @susiai BTC to INR [here](https://gitter.im/susiaitest/Lobby).
 
 ## Setup your own Messenger Bot
 
