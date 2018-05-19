@@ -1,6 +1,7 @@
 require('dotenv').config()
 var https = require('https');
 var request = require('request');
+var http = require("http");
 var roomId    = process.env.ROOM_ID || config.ROOM_ID;
 var token     = process.env.TOKEN || config.TOKEN;
 var emptyMessage = " \n";
@@ -10,6 +11,11 @@ var susiUsername="";
 https.createServer(function (request, response) {
     console.log("listening on port "+(process.env.PORT || 8080));
 }).listen(process.env.PORT || 8080);
+// ping heroku every 10 minutes to prevent it from sleeping
+setInterval(function() {
+    http.get(process.env.HEROKU_URL);
+}, 600000); // every 10 minutes
+
 const timezoneOffset = (new Date()).getTimezoneOffset();
 const defaultAnswer = {
     data: [{
