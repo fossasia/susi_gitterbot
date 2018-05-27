@@ -59,12 +59,39 @@ request(gitterOptionsUsername, function (error, response, body) {
     throw new Error(error);
     susiUsername=body[0].username;
 });
+function sendAnswer(ans){
+    // To set options to send a message i.e. the reply by Susi AI to client's message, to Gitter
+    var gitterOptions = {
+        method: 'POST',
+        url: 'https://api.gitter.im/v1/rooms/'+roomId+'/chatMessages',
+        headers:
+        {
+            'authorization': 'Bearer '+ token ,
+            'content-type': 'application/json',
+            'accept': 'application/json'
+        },
+        body:
+        {
+            text: ans
+        },
+        json: true
+    };
+
+    // making the request to Gitter API
+    request(gitterOptions, function (error, response, body) {
+        if(error)
+        throw new Error(error);
+        console.log(body);
+    });
+}
 // making a request to gitter stream API
 var req = https.request(options, function(res) {
     res.on('data', function(chunk) {
         var msg = chunk.toString();
         if(msg != emptyMessage){
+            try{
             var jsonMsg = JSON.parse(msg);
+
             if(jsonMsg.text.startsWith("@"+susiUsername) && jsonMsg.fromUser.displayName !== susiUsername){
                 // The message sent to Susi AI gitter room by the client.
                 var clientMsg = jsonMsg.text.slice(susiUsername.length+1);
@@ -97,7 +124,7 @@ var req = https.request(options, function(res) {
                             let rssData = JSON.parse(body1).answers[0].data;
                             let columns = type[1];
                             let key = Object.keys(columns);
-
+                            ans = "";
                             rssData.forEach(function(row,index) {
                                 if(row<maxCount){
                                   ans += ('Title : ');
@@ -107,52 +134,36 @@ var req = https.request(options, function(res) {
                                   ans += '\n\n';
                                 }
                               });
+                            sendAnswer(ans);
                         }
                         else if(type === "table"){
                             var tableData = (JSON.parse(body1)).answers[0].data;
                             var columnsObj=action.columns;
-                            var maxRows=100;
+                            var maxRows=50;
                             let columns = Object.keys(columnsObj);
                             var columnsData = Object.values(columnsObj);
+                            ans = "";
                             tableData.forEach(function(row,index) {
                                 if(row[columns[0]] && index<maxRows){
                                     let msg = "*"+row[columns[0]]+"*" + ", " + row[columns[1]] + "\n" + row[columns[2]]+ "\n ";
                                     ans=ans+msg;
                                 }
                             });
-                            ans += '\n\n';
+                            ans += "\n";
+                            sendAnswer(ans);
                         }
                         else
                         {
                             ans = action.expression;
+                            sendAnswer(ans);
                         }
-                    });
-
-                    // To set options to send a message i.e. the reply by Susi AI to client's message, to Gitter
-                    var gitterOptions = {
-                        method: 'POST',
-                        url: 'https://api.gitter.im/v1/rooms/'+roomId+'/chatMessages',
-                        headers:
-                        {
-                            'authorization': 'Bearer '+ token ,
-                            'content-type': 'application/json',
-                            'accept': 'application/json'
-                        },
-                        body:
-                        {
-                            text: ans
-                        },
-                        json: true
-                    };
-
-                    // making the request to Gitter API
-                    request(gitterOptions, function (error, response, body) {
-                        if(error)
-                        throw new Error(error);
-                        console.log(body);
                     });
                 });
             }
+        }
+        catch(err){
+            var error = true;
+        }
         }
     });
 });
