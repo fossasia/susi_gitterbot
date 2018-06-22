@@ -143,6 +143,9 @@ function getSusiAnswer(clientMsg){
 			else
 			{
 				ans = action.expression;
+				if(ans.endsWith(".png") || ans.endsWith(".jpg") || ans.endsWith(".jpeg") || ans.endsWith(".gif") ){
+					ans = "![image](" + ans + ")";
+				}
 				sendAnswer(ans);
 			}
 		});
